@@ -1,0 +1,370 @@
+# Brief: omnicache-proxy — can it be a SaaS that earns?
+
+## The user's question (verbatim)
+"Is my project omnicache-proxy a saas that can earn."
+
+## Clarifications from the user
+- Repo: https://github.com/13manmayarai-hash/omnicache-proxy (public). The user approved reading it; the project's own README is reproduced below verbatim as the description of the idea.
+- Target customer: the user answered "Check all" — i.e. evaluate solo devs / indie hackers, startups / SMB teams, and enterprises.
+- Real numbers (users, stars, revenue, costs, planned price): none provided by the user.
+
+## Project README (verbatim from the repo's README.md — these are the project's own claims, not independently verified)
+
+<div align="center">
+
+# ⚡ OmniCache
+
+### Cut your Claude Code & Cursor API bills by 40%–70%.
+**Stop burning tokens and hitting rate limits re-reading unchanged files. Replay agent tool calls, file reads, and repeated prompts on localhost in `<0.1ms` for `$0.00`.**
+
+<br/>
+
+[![PyPI version](https://img.shields.io/pypi/v/omnicache-proxy.svg?style=for-the-badge&color=10b981&logo=pypi&logoColor=white)](https://pypi.org/project/omnicache-proxy/)
+[![Python 3.9 - 3.14](https://img.shields.io/badge/Python-3.9_--_3.14-38bdf8?style=for-the-badge&logo=python&logoColor=white)](https://pypi.org/project/omnicache-proxy/)
+[![License: FSL-1.1-MIT](https://img.shields.io/badge/License-FSL--1.1--MIT-818cf8?style=for-the-badge)](https://github.com/13manmayarai-hash/omnicache-proxy/blob/main/LICENSE)
+[![Test Suite](https://img.shields.io/badge/Tests-212%20Passed%20(100%25)-34d399?style=for-the-badge&logo=pytest&logoColor=white)](https://github.com/13manmayarai-hash/omnicache-proxy/actions)
+[![Model Context Protocol](https://img.shields.io/badge/MCP-Native%20Server-9333ea?style=for-the-badge&logo=anthropic&logoColor=white)](./mcp/README.md)
+[![Zero Telemetry](https://img.shields.io/badge/Privacy-100%25%20Localhost%20(127.0.0.1)-f59e0b?style=for-the-badge&logo=shield&logoColor=white)](https://github.com/13manmayarai-hash/omnicache-proxy/blob/main/SECURITY.md)
+
+<br/>
+
+```bash
+# ⚡ 10-Second Quickstart (Zero Configuration Needed)
+pip install omnicache-proxy
+omnicache run claude
+```
+
+<br/>
+
+<table>
+  <tr>
+    <td align="center"><a href="#-why-omnicache"><b>💡 The Problem & Fix</b></a></td>
+    <td align="center"><a href="#-60-second-quickstart"><b>🚀 Quick Start</b></a></td>
+    <td align="center"><a href="#-model-context-protocol-mcp-server"><b>🔌 MCP Server</b></a></td>
+    <td align="center"><a href="#-architecture"><b>📐 Architecture</b></a></td>
+    <td align="center"><a href="#-verified-performance-benchmarks"><b>⚡ Benchmarks</b></a></td>
+    <td align="center"><a href="#-drop-in-agent-support"><b>🤖 Agent Presets</b></a></td>
+    <td align="center"><a href="#-command-cheatsheet"><b>🛠️ CLI Tools</b></a></td>
+  </tr>
+</table>
+
+</div>
+
+<br/>
+
+---
+
+## 💡 Why OmniCache?
+
+When autonomous coding agents (**Claude Code**, **Cursor**, **Aider**, **Cline**) work on your codebase, up to **60%–80% of your token burn and latency** goes into repetitive disk and file reads:
+* Re-reading `package.json`, `tsconfig.json`, directory trees, and lint rules on **every single turn**.
+* Running test suites, git diffs, or bash inspection commands where the underlying code has **not changed**.
+* Paying frontier cloud input prices ($3–$15 per million tokens) and waiting **1,200ms–2,500ms** per roundtrip for identical content.
+
+```text
+┌────────────────────────┬────────────────────────┬────────────────────────┬────────────────────────┐
+│      < 0.1 ms          │        $0.00           │        100%            │        100%            │
+│  Tool Replay Latency   │  Cost on Repeat Reads  │  Token Savings on Hits │  Localhost Air-Gapped  │
+└────────────────────────┴────────────────────────┴────────────────────────┴────────────────────────┘
+```
+
+### The Difference:
+
+| Scenario | Without OmniCache | With OmniCache Sidecar |
+| :--- | :--- | :--- |
+| **Re-reading unchanged files & directory trees** | 1,200ms–2,500ms cloud lag + full token cost | **`<0.1ms` local replay + $0.00 token cost** |
+| **Running test suites on unchanged code** | Burns 5k–20k input tokens on repeat | **0 tokens burned** (served from SQLite WAL memory) |
+| **Anthropic & OpenAI Rate Limits** | Frequent `429 Rate Limit` interruptions | **Vastly reduced** (cached turns never touch the cloud) |
+| **Workspace File Edits** | Risk of stale or hallucinated context | **Instant invalidation** (SHA-256 Git & mtime tracking) |
+| **Data Privacy** | Code sent across the wire on every turn | **100% Localhost** with HMAC-SHA256 PII redaction |
+
+**How it works:** OmniCache sits transparently on `127.0.0.1:8000`. It cryptographically fingerprints your local Git tree and workspace file modification times (`mtime`). If the files haven't changed, the agent receives the exact tool output or cached completion from local SQLite WAL memory in **under 0.1ms** without touching the internet. The second you edit a file or git commit, affected cache entries are **instantly evicted**.
+
+---
+
+## 📐 Architecture
+
+```mermaid
+flowchart TD
+    subgraph Client["Developer Coding Workspace"]
+        Agent["🤖 AI Coding Agent<br/>(Claude Code / Cursor / Cline / Aider)"]
+    end
+
+    subgraph Sidecar["⚡ OmniCache Local Engine (127.0.0.1:8000)"]
+        Router["Transparent Interceptor<br/>(Protocol Translator)"]
+        
+        subgraph MemoryFabric["Deterministic Memory Subsystems"]
+            GitCheck{"Git Working Tree<br/>Changed?"}
+            L1["L1 Exact Trie Cache<br/>(0.06ms Lookup)"]
+            L2["L2 Quantized Vector Cache<br/>(Int8 SIMD Cosine Match)"]
+            ToolStore[("SQLite WAL Store<br/>Tool & File Signatures")]
+            Compactor["Context Compaction<br/>(Head/Tail Pruning)"]
+        end
+    end
+
+    subgraph Cloud["Remote Cloud Providers (Only on Cache Miss)"]
+        Upstream["Anthropic / OpenAI / Gemini<br/>(1,000ms - 2,500ms Turn)"]
+    end
+
+    Agent -->|"ANTHROPIC_BASE_URL<br/>OPENAI_BASE_URL"| Router
+    Router --> GitCheck
+    GitCheck -->|"Unchanged (Hit)"| ToolStore
+    GitCheck -->|"Prompt Re-evaluation"| L1
+    L1 -->|"Exact Match"| ToolStore
+    L1 -->|"Fuzzy Match"| L2
+    ToolStore -->|"Replay in <0.1ms ($0.00)"| Agent
+    
+    L2 -->|"Cache Miss"| Compactor
+    Compactor -->|"Pruned Prompt"| Upstream
+    Upstream -->|"Record to SQLite WAL"| ToolStore
+    ToolStore -->|"Streaming Response"| Agent
+```
+
+---
+
+## 💡 Why OmniCache vs. Native Provider Caching?
+
+Anthropic and OpenAI offer server-side prompt caching, which discounts prefix tokens in the cloud. However, native cloud caching leaves four critical developer gaps unaddressed:
+
+| Capability | Native Cloud Provider Caching | OmniCache Local Sidecar |
+| :--- | :--- | :--- |
+| **Tool Execution Roundtrips** | ❌ **Runs on disk & calls cloud every turn** | ✅ **`<0.1ms` deterministic SQLite replay** |
+| **Completion Output Token Cost** | ❌ **100% full price** ($10–$15 per 1M tokens) | ✅ **100% free ($0.00)** on cached turns |
+| **Cache Lifetime** | ❌ **Ephemeral** (evicts after 5–10 min idle) | ✅ **Persistent** across sessions (SQLite WAL / Redis) |
+| **Git Working-Tree Awareness** | ❌ **Zero** (no concept of git commits or mtimes) | ✅ **Deep** (SHA-256 tree validation + instant edit purge) |
+| **Multi-Turn Context Growth** | ❌ **Unbounded** (context expands every turn) | ✅ **Adaptive Compaction** (prunes intermediate tool dumps) |
+| **Team & Cross-Agent Sharing** | ❌ **Isolated** to a single API connection | ✅ **Shared** memory bus & CRDT P2P edge mesh |
+| **Offline Air-Gapped Speed** | ❌ **Requires active internet connection** | ✅ **Runs 100% locally** on `127.0.0.1:8000` |
+
+---
+
+## 🚀 60-Second Quickstart
+
+### 1. Install via PyPI
+```bash
+pip install omnicache-proxy
+```
+
+### 2. Verify Your Environment
+```bash
+omnicache doctor
+```
+
+### 3. Launch Your Coding Agent (Zero Configuration Changes)
+Use the `run` execution wrapper. It automatically launches the background sidecar, exports loopback environment variables (`ANTHROPIC_BASE_URL`, `OPENAI_BASE_URL`, `LLM_BASE_URL`), and displays a session savings summary when you finish:
+
+```bash
+# Claude Code:
+omnicache run claude
+
+# Cursor IDE:
+omnicache run cursor .
+
+# Custom Python agent scripts or runners:
+omnicache run -- python my_agent.py
+```
+
+When your session exits, OmniCache renders your verified telemetry ledger:
+```text
+╭──────────────────────────────────────────────────╮
+│ ⚡ OmniCache Session Telemetry                   │
+│  - Tokens Saved:       18,450 tokens             │
+│  - Avoided Cost:       $0.0554 USD               │
+│  - Tool Replays:            14 cached tool calls │
+╰──────────────────────────────────────────────────╯
+```
+
+---
+
+## ⚡ Verified Performance Benchmarks
+
+Measured on standard commodity ARM/x86 hardware running Python 3.10–3.14:
+
+```text
+==================================================================================================
+Subsystem                        Est. Upstream Turn   OmniCache Replay   Speedup    Benefit
+==================================================================================================
+L1 Exact Request Cache           ~450.00 ms (Est.)    0.0609 ms          7,390x     100% Token Savings
+L2 FastHash Fuzzy/Near-Duplicate ~450.00 ms (Est.)    1.0232 ms            439x     Fuzzy Subword Match
+Agent Tool Replayer (Git-Aware)  ~1,200.00 ms (Est.)  0.3052 ms          3,931x     $0.00 Disk Thrashing
+Workspace CI/CD Pre-Warming      Cold Repo Scan       2781.43 ms         2 f/s      Pre-warmed 5 files
+==================================================================================================
+* Est. Upstream Turn represents typical remote cloud LLM network roundtrips.
+  OmniCache Replay columns represent actual locally measured micro-benchmarks on hardware.
+```
+
+Run benchmarks locally anytime:
+```bash
+omnicache benchmark
+```
+
+---
+
+## 🤖 Drop-In Agent Support
+
+OmniCache automatically writes native configurations for your preferred developer environment:
+
+```bash
+# Auto-configure Claude Code, Cursor, Cline, and OpenHands:
+omnicache init
+
+# Or preview configuration JSON / TOML snippets without touching disk:
+omnicache init --show
+
+# Target a specific assistant:
+omnicache init --agent claude
+omnicache init --agent cursor
+omnicache init --agent cline
+```
+
+### Manual Environment Variables
+If you prefer configuring your shell manually:
+```bash
+# Claude Code
+export ANTHROPIC_BASE_URL="http://127.0.0.1:8000"
+
+# OpenAI SDK & Cursor
+export OPENAI_BASE_URL="http://127.0.0.1:8000/v1"
+export OPENAI_API_BASE="http://127.0.0.1:8000/v1"
+```
+
+---
+
+## 🔌 Model Context Protocol (MCP) Server
+
+OmniCache provides a **native, enterprise-ready Model Context Protocol (MCP)** server compliant with Anthropic's Connectors Directory Policy. It supports both **Local Stdio** (`omnicache mcp`) for desktop workflows and **Streamable HTTP** (`GET/POST /mcp`) with Server-Sent Events (SSE), `Mcp-Session-Id` session tracking, and RFC 8414 / RFC 9728 OAuth 2.0 discovery metadata.
+
+### Transports Supported
+* **Local Stdio Transport:** Standard JSON-RPC 2.0 loop via `omnicache mcp` for Claude Desktop, Claude Code, Cursor, and Cline.
+* **Streamable HTTP Transport:** Hosted/remote endpoint at `http://127.0.0.1:8000/mcp` with persistent SSE streams (`Accept: text/event-stream`), protocol version negotiation (`2024-11-05`), and automated OAuth 2.0 discovery (`/.well-known/oauth-authorization-server`).
+
+### 1-Click Install via Smithery
+Install directly to **Claude Desktop** with one command:
+```bash
+npx -y @smithery/cli install omnicache --client claude
+```
+
+### Direct Agent Configuration
+
+#### Claude Code (CLI)
+```bash
+claude mcp add omnicache -- omnicache mcp
+```
+
+#### Claude Desktop (`claude_desktop_config.json`) & Cursor (`.cursor/mcp.json`)
+```json
+{
+  "mcpServers": {
+    "omnicache": {
+      "command": "omnicache",
+      "args": ["mcp"],
+      "env": {
+        "OMNICACHE_ORG_ID": "default"
+      }
+    }
+  }
+}
+```
+
+### Provided Tools
+
+| Tool | Purpose |
+| :--- | :--- |
+| `omnicache_query` | Sub-millisecond intent-gated vector cache lookup (<1ms), returning cached completions for 0 tokens. |
+| `omnicache_store` | Explicitly saves high-value answers, documentation, or code snippets into vector memory. |
+| `omnicache_search` | Sub-millisecond vector similarity search across all cached prompts, solutions, and knowledge entries. |
+| `omnicache_replay_tool` | Looks up cached outputs for deterministic agent tools (`read_file`, `git_status`, `grep`) with workspace state checks. |
+| `omnicache_record_tool` | Records tool execution outputs for subsequent 0ms replays. |
+| `omnicache_health` | Enterprise health check: verifies SQLite persistence, vector memory, and tool replayer status. |
+| `omnicache_stats` | Returns real-time telemetry: hit ratios, total queries, tokens saved, and cost saved in USD. |
+
+#### Example Agent Prompts Exercising MCP Tools
+
+1. **`omnicache_query`**: `"Check OmniCache to see if we have an optimized SQLite WAL connection pool implementation in Python."`
+2. **`omnicache_search`**: `"Search our cached knowledge base for solutions related to OAuth 2.0 token expiration and refresh token rotation."`
+3. **`omnicache_store`**: `"Store our standard API rate limiting configuration in OmniCache under the tag 'networking'."`
+
+*For complete MCP documentation, payloads, and JSON schemas, see [`mcp/README.md`](mcp/README.md).*
+
+---
+
+## 📊 Engineering Telemetry Dashboard
+
+OmniCache includes a real-time developer telemetry dashboard:
+
+### Engineering Blueprint Dashboard (`http://localhost:8000/dashboard`)
+* **Dark Neo-Brutalist Architecture:** High-contrast schematic blueprint layout matching the production frontend.
+* **Single-Frame Mobile KPI Matrix:** All 6 core performance and financial metrics visible above the fold on mobile screens without scrolling.
+* **Twin Telemetry Monitors:** Streaming financial savings spline + resolution distribution breakdown (L1 Exact, L2 Semantic, and Git Tool replays).
+* **Live Sandbox & Upstream Inspection:** Test Claude Messages and OpenAI completions in-browser with synthetic PII generation, hot routing, and transparent billing indicators.
+
+> [!TIP]
+> Run `omnicache demo` in your terminal to launch an automated 30-second live simulation that streams realistic coding agent events directly to your dashboard!
+
+---
+
+## 🛠️ Command Cheatsheet
+
+| Command | Purpose |
+| :--- | :--- |
+| `omnicache` | Start the background proxy daemon listening on `127.0.0.1:8000` |
+| `omnicache mcp` | Launch the standard JSON-RPC 2.0 stdio MCP server for Claude Desktop, Cursor, and Cline |
+| `omnicache run <cmd>` | Zero-config execution wrapper for Claude Code, Cursor, or custom agents |
+| `omnicache doctor` | Validate Python runtime, SQLite WAL status, port binding, and vector engine health |
+| `omnicache benchmark` | Run microsecond latency and throughput benchmarks across all cache tiers |
+| `omnicache demo` | Run an automated 30-second live test streaming realistic events to the dashboard |
+| `omnicache harness` | Run the complete 14-subsystem integration test scorecard (`14/14 Passed`) |
+| `omnicache warm` | Pre-warm workspace repository files and tool signatures for instant replays |
+| `omnicache sync` | Export, import, push, or pull cache snapshots across teammates |
+| `omnicache mesh` | Discover and inspect P2P Edge Mesh peers and CRDT vector clocks |
+| `omnicache stats` | Output cumulative session savings (pass `--markdown` for CI/CD summaries) |
+
+---
+
+## 🔒 Security & Enterprise Readiness
+
+* **Strict Localhost Binding:** By default, OmniCache binds strictly to loopback (`127.0.0.1:8000`), refusing to expose unauthenticated endpoints to external networks.
+* **Salted HMAC-SHA256 Tokenization:** The built-in `PrivacyShield` scrubs sensitive developer credentials (emails, API keys, private tokens) locally before optional upstream transmission.
+* **Cryptographic Multi-Tenancy:** Complete tenant isolation via `org_id` and `OMNICACHE_ORG_ID` environment variables.
+* **SOC2-Ready Audit Logging:** Structured JSONL audit trails recording all MCP tool executions, durations, and statuses written to `~/.omnicache/mcp_audit.jsonl`.
+* **Zero Remote Telemetry:** All embeddings, SQLite WAL database writes, and telemetry aggregations execute strictly in-process. No code or prompt data is ever phoned home to external servers.
+* For security disclosures and guidelines, see [SECURITY.md](SECURITY.md).
+* For complete data handling, retention policies, and user purge rights under Anthropic Directory Policy, see [PRIVACY.md](PRIVACY.md).
+
+### 🐳 Docker & Container Deployment
+
+OmniCache provides a hardened container image with fail-closed security invariants:
+
+```bash
+# REQUIRED: Pass ADMIN_API_KEY at runtime (do not bake keys into image layers)
+docker run -d \
+  -p 8000:8000 \
+  -e ADMIN_API_KEY="your-secure-random-admin-key" \
+  omnicache-proxy:latest
+
+# Or launch with docker-compose (includes Redis + automated healthchecks)
+docker-compose up -d
+```
+
+> [!IMPORTANT]
+> The container defaults to `OMNICACHE_HOST=0.0.0.0` and `REQUIRE_AUTH=true`. An `ADMIN_API_KEY` **must** be supplied at runtime via `-e ADMIN_API_KEY=...` or your container orchestrator's secrets manager. If omitted, the container immediately refuses to boot with an explicit security error.
+
+---
+
+## 📄 Documentation
+
+* 📜 [Privacy Policy](PRIVACY.md) & [Full Policy Document](docs/PRIVACY_POLICY.md)
+* 📖 [Architecture Deep Dive](docs/ARCHITECTURE.md)
+* 🤖 [Agent Integrations Guide (Claude Code, Cursor, Cline)](docs/AGENT_INTEGRATIONS.md)
+* 📡 [API Reference](docs/API_REFERENCE.md)
+* 🔬 [Independent Empirical Audit Report](docs/EMPIRICAL_AUDIT_REPORT.md)
+* ❓ [Troubleshooting & FAQ](docs/TROUBLESHOOTING_AND_FAQ.md)
+
+---
+
+## ⚖️ License
+
+Distributed under the **Functional Source License, Version 1.1 (FSL-1.1-MIT)**.  
+Copyright (c) 2026 Rajiv Prasad.
+
+Free for developers and internal organizational use; prevents third-party commercial cloud hosting/proxy competition; converts automatically to standard **MIT License** after two years. See [LICENSE](LICENSE) for full legal terms.
