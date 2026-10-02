@@ -1,17 +1,22 @@
-# OmniCache — Listing step (3 of 10), ready-to-paste values
+# OmniCache: Listing step (3 of 10), final values
 
-> **Don't press Submit yet.** The council's verdict is NO-GO until the six gates in `verdict.md` pass. The slug `omnicache` becomes permanent once you submit. These values are drafts you can paste into the saved form now. The Description describes the connector **after** the fixes: `replay_tool` and `record_tool` removed, and per-account isolation over OAuth proven. Fields marked ⚠️ depend on a gate.
+**Status (2026-10-02):** ready to submit. All six gates in `verdict.md` were closed after the council session:
+- **Code:** omnicache-proxy PR #4, plus later commits up to `90248c5` on `main`; all 370 tests pass.
+- **Live checks (run by the owner and reported in chat):**
+  - two Google accounts can't read or search each other's entries, and passing another account's `org_id` is rejected;
+  - the claude.ai custom-connector test passed end to end;
+  - the hosted endpoint lists 6 tools with no steering text.
 
-Facts come from the repo (`pyproject.toml`, `server.json`, `mcp/server.py`). The copy follows the verdict: it's about shared memory and recall, not cost savings, and makes no "<1ms" or "100% token savings" claims.
+The slug `omnicache` becomes permanent once you submit.
 
 ## Listing
 
-**Name** (already filled)
+**Name**
 ```
 OmniCache
 ```
 
-**Slug** (already filled; permanent after submission)
+**Slug**
 ```
 omnicache
 ```
@@ -21,18 +26,18 @@ omnicache
 Shared semantic memory for Claude: store useful answers, snippets and notes, then search and recall them across conversations.
 ```
 
-**Description** (1,448 / 2,000 characters) ⚠️ The isolation sentence is only true once gate 3 passes.
+**Description** (1,553 / 2,000 characters)
 ```
 OmniCache gives Claude a persistent, searchable memory that belongs to your account. Save answers, code snippets, configuration notes and documentation once, and Claude can find and reuse them in later conversations instead of starting from scratch.
 
 What you can do:
 - Store knowledge: ask Claude to save a solution, snippet or note to OmniCache, with an optional tag such as "networking" or "auth".
 - Search your memory: find earlier entries by meaning, not just exact words. For example, "how did we handle refresh-token rotation?" finds a note titled "OAuth token expiry fix".
-- Check before answering: Claude can look up whether a closely matching question has already been answered and saved.
+- Check for an existing answer: Claude can look up whether a closely matching question has already been answered and saved.
 - Clean up: remove entries by tag when they are out of date. This is the only tool that deletes data and is marked as destructive.
 - See usage and health: view how many entries you have, hit rates, and whether the service is ready.
 
-Your entries are isolated to your own account and are not shared with other users. Sign-in uses OAuth.
+Entries are private to your account and are not shared with other users. Sign-in uses OAuth with Google. Saved entries expire after 7 days by default, or up to 30 days if you set a longer time-to-live.
 
 Example prompts:
 - "Save our standard API rate-limiting config to OmniCache under the tag networking."
@@ -49,43 +54,49 @@ Choose the closest matches to these, in order: **Developer tools**, **Knowledge 
 ```
 Rajiv Prasad
 ```
-(Source: `pyproject.toml` authors and the LICENSE copyright.)
 
-**Author URL**
+**Author URL** (the owner confirmed it serves the OmniCache landing page)
 ```
 https://omnicache.rawwgrid.com
 ```
-(Source: `pyproject.toml` "Website". Check that it loads. If it doesn't, use `https://github.com/13manmayarai-hash`.)
 
-**Icon:** leave as is. The form recommends using the favicon from your server's URL.
+**Icon:** leave it as is, so the directory uses the server's favicon.
 
 ## Links
 
-**Documentation** ⚠️ gate 4
+**Documentation**
 ```
-https://github.com/13manmayarai-hash/omnicache-proxy/blob/main/mcp/README.md
+https://github.com/13manmayarai-hash/omnicache-proxy/blob/main/docs/HOSTED_CONNECTOR.md
 ```
-This is the best existing page, but it only covers local stdio setup and never mentions the hosted endpoint. Before submitting, add a hosted-connector page that covers the connector URL, how a new user gets access (API-key onboarding), what each tool does and example prompts, and link to that page instead.
 
 **Support**
 ```
 https://github.com/13manmayarai-hash/omnicache-proxy/issues
 ```
-(Source: `pyproject.toml` "Issues". Alternative: `13manmayarai@gmail.com`, the author email in `pyproject.toml`.)
 
-**Privacy policy** ⚠️ gate 4, a blocker
+**Privacy policy**
 ```
-https://github.com/13manmayarai-hash/omnicache-proxy/blob/main/PRIVACY.md
+https://github.com/13manmayarai-hash/omnicache-proxy/blob/main/docs/HOSTED_PRIVACY_POLICY.md
 ```
-**Don't submit this URL as the file stands.** `PRIVACY.md` and `docs/PRIVACY_POLICY.md` both say OmniCache is local-only and never sends prompts to any server. That is false for the hosted connector, and an inaccurate privacy policy gets a submission rejected immediately. First rewrite the policy for the hosted service. It needs to cover:
-- what gets stored (prompts, answers and tags you save)
-- where it is stored (the Render region, and whether the disk is persistent)
-- how long it is kept
-- who can access it
-- how a user deletes their data
-- a contact address
 
-Then put that policy's URL here.
+## For later steps (server URL, reviewer notes)
 
-## Steps 4–10
-Your screenshots don't show these steps. The council's sources say the review also asks for a reviewer test account (an API key plus some sample entries that survive a redeploy; see gate 6). Send screenshots of the later steps and I'll draft them the same way.
+**Connector / server URL**
+```
+https://omnicache.rawwgrid.com/mcp
+```
+
+**Reviewer notes**
+```
+Sign in: choose "Sign in with Google" on the OmniCache consent page when connecting. A new, isolated workspace is created automatically for each Google account; no API key or manual approval is needed.
+
+Sample data: entries are private to each account, so a new Google sign-in starts with an empty workspace. Ask Claude to store a note, then query or search for it. To see pre-loaded examples instead, paste the reviewer API key provided in this submission into the "OmniCache API Key" box on the same consent page. That workspace holds three entries until November 1, 2026: SQLAlchemy connection pooling (tag: database), Python exponential backoff with tenacity (tag: python), and Docker multi-stage caching (tag: devops).
+
+Retention: entries expire after 7 days by default (up to 30 days with a custom time-to-live).
+
+Tested end to end as a claude.ai custom connector: OAuth with PKCE, tool discovery (6 tools), store, exact and reworded query, search, and tag-based deletion.
+```
+
+**Reviewer API key:** put it in the form's credentials or test-account field, never in this file or the repo. It must belong to the workspace that holds the 3 sample entries and be a regular tenant key, not the admin key. If you'd rather not issue one, delete the last two sentences of the Sample data paragraph.
+
+Steps 4–10 weren't shown in your screenshots. If they ask for something not covered here, send a screenshot and I'll draft it.
