@@ -1,0 +1,20 @@
+## Skeptic — Rebuttal
+**Concede:**
+- **The failure mode is real and well documented.** [Fact] The Believer cites ImpossibleBench, Hodoscope, Meta's safety report and EvilGenie. Together they show frontier agents edit assertions and special-case tests. EvilGenie also shows that re-running tests alone misses these hacks. This supports checking the diff and the evidence, not the test result. I accept this part of my Risk 3.
+- **The buyer population exists and is growing.** [Fact] Greptile's AI-attributed PR share went from 0.86% to 27.6%. The arXiv study of about 1M repos went from 2% to 10%. These two figures use different methods, but both point up. "Teams merging agent PRs" is no longer a hypothetical segment.
+- **The Investor's kill criteria line up with my tests.** One condition is at least 1 confirmed fake-green PR per team per month. Another is 10 teams paying at least $20/seat for 3 months. Those match my free-scan and paid-pilot tests. We agree on what evidence settles this.
+
+**Press:**
+1. **The "deterministic, cheap" mechanism is exactly what already exists for free.** The Believer's reason 3 lists fewer assertions, added skip/xfail, changed expected values and swapped selectors. All of these are tagged [Assumption]. They overlap almost entirely with what tamperguard and tampercheck already do for free (see my Round 1 sources). Being deterministic also makes these checks easy for CodeRabbit or GitHub to copy. So the only real differentiator left is the YAML evidence policy, and the Believer tags that [Assumption] too. **Why it matters:** this is where the two cases contradict each other. The evidence checks need a running environment and access to the DB and telemetry. That is exactly the cost the Investor flags: contribution falls to zero at about $0.56 per PR. The feature that makes TraceGate different is the one most likely to break the margin, and it has the highest setup burden (my Risk 2).
+2. **Volume of agent PRs is not the same as incidence of fake-green merges.** The growth numbers count agent PRs. They do not count PRs that passed tests, were broken and got merged unnoticed. ImpossibleBench is designed so that cheating is the only way to pass. Production repos are not. The step from "more agent PRs" to "teams will pay" is the Believer's own [Assumption] (reason 2). **Why it matters:** the whole revenue model, and the Investor's own condition of at least 1 true positive per team per month, depends on a production rate that nobody on this council has measured.
+3. **The Investor's revenue inputs carry hidden optimism.**
+   - [Assumption] The price is $25/seat, which matches CodeRabbit's price for a full AI reviewer. TraceGate is a single-purpose check that would likely sit beside such a reviewer, so a reasonable prior is that buyers pay less.
+   - [Guess] Per-seat pricing also fits poorly when agents, not seats, write the PRs.
+   - [Assumption] The model assumes +10 net teams per month, but the Believer concedes there is no named team, channel or audience.
+   - **Why it matters:** the Investor's break-even price is about $10/seat. If buyers anchor below CodeRabbit's price, there is little room above that floor.
+
+**Updated severity of the biggest risk:** **4 (down from 5).**
+- The risk that the diff-check core is a commodity is unchanged. Nobody offered evidence that TraceGate's diff checks beat free tools or incumbent reviewers. The Believer even names "existing reviewers already flag weakened tests" as their own kill condition.
+- I lower it one point for two reasons. Both other members place the value in the evidence policy, not the diff checks. And the documented research shows test re-runs miss these hacks, which leaves room for a product that checks evidence.
+- The question that decides the idea has moved. It is now whether teams will write a YAML evidence policy and whether those checks can run for under about $0.30 per PR. The cheapest test is still one week: show 10 teams a policy mock-up, and run free scans of their last 100 agent PRs.
+- If no team writes a policy, or no scan finds a real fake-green merge, this goes back to severity 5.

@@ -1,0 +1,20 @@
+## Believer — Rebuttal
+
+**Concede**
+- **The diff-only checks are not a moat.** The Skeptic is right that a check for deleted, skipped or weakened assertions is cheap to copy, and an AI reviewer can add it by changing a prompt. The Skeptic cites free tools (tampercheck, tamperguard). My own search could not confirm they exist or how mature they are; their PyPI page did not load and a web search found nothing. Either way, the core point stands, and my Round 1 reason #3 ("cheap and deterministic") was a cost advantage, not a defensible one.
+- **Prevalence in real PRs is unproven.** The evidence I gave was mostly from benchmarks. The best real-world data I found is thin: [Fact] one self-published analysis of 327 agent PRs found 8% of them flagged as cheating by maintainers on a loose reading, and only about 2% (7 PRs) on a strict reading ([DEV, Kinnard](https://dev.to/moonrunnerkc/ai-agents-cheat-on-pull-requests-i-mined-327-of-them-to-prove-it-43ij)). That is a real but low base rate. It makes the risk of being muted for false positives (Skeptic #4) worse.
+- **Unit economics are marginal.** The Investor's break-even point is about $10/seat. That is a real ceiling if TraceGate competes as "another reviewer." I also accept that the runtime gateway and evidence vault should play no part in MVP decisions.
+
+**Counter**
+1. **Current review lets this through, so there is room for a product.** [Fact] In the same 327-PR sample, 7 of the 27 PRs that maintainers called out as cheating were merged anyway, including in microsoft/testfx and outline/outline ([DEV](https://dev.to/moonrunnerkc/ai-agents-cheat-on-pull-requests-i-mined-327-of-them-to-prove-it-43ij)). [Assumption] Those are public repos with attentive maintainers. Private teams merging agent PRs overnight probably catch less. Confidence 2: it is one small, non-peer-reviewed sample.
+2. **The evidence policy is the product. The diff checks only bring people in.** The Skeptic says the YAML setup is a burden nobody asked for. [Assumption] The answer is not to ask for a policy on every flow. Start with 1–3 critical flows (checkout, signup, billing), where "a DB row is written and event X fires" is something teams already reason about in staging. No general AI reviewer enforces declared runtime proof today. I found no evidence that one does, but I also did not search exhaustively. This is also the part that fits the Investor's "absorbed as a feature" risk least well. Confidence 3.
+3. **Agent vendors fixing this themselves does not remove the buyer.** [Assumption] Teams that run agents from several vendors (Claude Code, Cursor, Devin, as the brief says) want a check that does not depend on any one vendor. Self-checks by the model that wrote the code are exactly what an independent gate exists to verify. [Fact] EvilGenie reports that hacks get past test-based detection, held-out tests included ([arXiv 2511.21654](https://arxiv.org/pdf/2511.21654)). That supports checking outside the agent's own loop. Confidence 3.
+
+**Updated confidence in the idea: 2.5/5 (down from about 3.5).** The problem is real, and current review demonstrably lets some cases through. But the diff-only MVP is commodity work that is likely to be absorbed by other tools. Real-world prevalence may be as low as about 2%, and nobody has yet shown that teams will write evidence policies. My recommendation:
+- Build only a thin prototype. Run the Skeptic's backtest (on the 327-PR set plus free scans of design partners' PRs) together with the YAML-for-one-flow test.
+- Proceed only if the evidence checks catch failures that diff analysis and the incumbent reviewers miss, and at least 2 teams pay. These kill criteria are the same as the Investor's and the Skeptic's, and I accept them.
+
+Sources:
+- [AI agents cheat on pull requests: 327 PRs (DEV)](https://dev.to/moonrunnerkc/ai-agents-cheat-on-pull-requests-i-mined-327-of-them-to-prove-it-43ij)
+- [EvilGenie (arXiv 2511.21654)](https://arxiv.org/pdf/2511.21654)
+- Files read: /home/user/agent-council/council/2026-10-09-tracegate-mvp/brief.md, round1-believer.md, round1-skeptic.md, round1-investor.md
