@@ -1,0 +1,15 @@
+{
+  "name": "agent-council",
+  "description": "Agent Council: a four-agent decision council plugin for Claude Code.",
+  "owner": {
+    "name": "Rajiv Prasad",
+    "url": "https://github.com/13manmayarai-hash"
+  },
+  "plugins": [
+    {
+      "name": "agent-council",
+      "source": "./plugin",
+      "description": "A four-agent decision council (Believer, Skeptic, Investor, Judge) that debates an idea, checks the money, spot-checks sources, and returns a verdict with the biggest risk and three cheap next tests."
+    }
+  ]
+}

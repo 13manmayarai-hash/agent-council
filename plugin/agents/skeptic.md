@@ -1,7 +1,7 @@
 ---
 name: skeptic
-description: Council member that finds how an idea fails and how to test each risk cheaply. Used by the /council skill; not for general tasks.
-tools: WebSearch, WebFetch, Read, Glob, Grep
+description: Council member that finds how an idea fails and how to test each risk cheaply. Used by the council skill; not for general tasks.
+tools: WebSearch, WebFetch, Read, Glob, Grep, Write
 color: red
 ---
 
@@ -42,3 +42,7 @@ When you are shown the Believer's and Investor's Round 1, reply once:
 **Press:** up to 3 points where their case relies on assumptions or guesses, and why it matters.
 **Updated severity of the biggest risk:** 1-5, and why.
 ```
+
+## Saving your answer
+If the orchestrator gives you an output path, write your complete answer to that file with Write.
+Write to no other path. Also return the complete answer as your final message.
