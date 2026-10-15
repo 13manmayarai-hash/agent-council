@@ -5,18 +5,16 @@ Give it an idea or decision; it argues both sides, checks the money, and returns
 with the biggest risk and the three cheapest tests to run next.
 
 ## Install
-Copy the `.claude/` folder into the root of any repo (or into `~/.claude/` to use it in every project):
+**As a plugin (recommended):** the plugin lives in the [`plugin/`](plugin/) folder.
+- In Claude Code: `/plugin install agent-council --marketplace 13manmayarai-hash/agent-council`
+- From the plugin directory on claude.ai, once it's listed, add **Agent Council**.
+- Or load it locally in Claude Code with `claude --plugin-dir ./plugin`.
 
-```
-.claude/
-  agents/believer.md
-  agents/skeptic.md
-  agents/investor.md
-  agents/judge.md
-  skills/council/SKILL.md
-```
+As a plugin, the command is `/agent-council:council` and the members are `agent-council:believer` and so on.
 
-Start a new Claude Code session in that repo so the agents and skill load.
+**Copying the files:** copy `plugin/agents/` and `plugin/skills/` into the `.claude/` folder of any repo,
+or into `~/.claude/` to use it in every project. The command is then `/council`. This repo's own
+`.claude/agents` and `.claude/skills` are links to `plugin/`, so `/council` works in this repo too.
 
 ## Use
 ```
@@ -50,3 +48,6 @@ Everything is saved to `council/<date>-<slug>/` (brief, six arguments, verdict),
 - Believer, Skeptic and Investor use web search to check facts; results depend on what's publicly findable.
 - Each run makes seven subagent calls, so it uses noticeably more of your usage than a normal message.
 - To change a model per agent, add `model: opus` (or `sonnet`, `haiku`) to that agent's frontmatter.
+
+## License
+MIT. See [LICENSE](LICENSE).

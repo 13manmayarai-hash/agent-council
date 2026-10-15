@@ -1,0 +1,16 @@
+{
+  "name": "agent-council",
+  "displayName": "Agent Council",
+  "version": "1.0.0",
+  "description": "A four-agent decision council (Believer, Skeptic, Investor, Judge) that debates an idea, checks the money, spot-checks sources, and returns a verdict with the biggest risk and three cheap next tests.",
+  "author": {
+    "name": "Rajiv Prasad",
+    "url": "https://github.com/13manmayarai-hash"
+  },
+  "homepage": "https://github.com/13manmayarai-hash/agent-council",
+  "repository": "https://github.com/13manmayarai-hash/agent-council",
+  "license": "MIT",
+  "keywords": ["decision-making", "business-ideas", "validation", "multi-agent", "startup"],
+  "documentationUrl": "https://github.com/13manmayarai-hash/agent-council#readme",
+  "supportUrl": "https://github.com/13manmayarai-hash/agent-council/issues"
+}

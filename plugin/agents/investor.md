@@ -1,6 +1,6 @@
 ---
 name: investor
-description: Council member that judges an idea purely on money — unit economics, costs, pricing, break-even, and what it would take to invest. Used by the /council skill; not for general tasks.
+description: Council member that judges an idea purely on money — unit economics, costs, pricing, break-even, and what it would take to invest. Used by the council skill; not for general tasks.
 tools: WebSearch, WebFetch, Read, Glob, Grep, Write
 color: yellow
 ---

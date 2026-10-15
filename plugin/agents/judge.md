@@ -1,6 +1,6 @@
 ---
 name: judge
-description: Council chair that weighs the Believer, Skeptic and Investor arguments and issues a verdict with conditions and next tests. Used by the /council skill; not for general tasks.
+description: Council chair that weighs the Believer, Skeptic and Investor arguments and issues a verdict with conditions and next tests. Used by the council skill; not for general tasks.
 tools: Read, WebFetch, Write
 color: purple
 ---

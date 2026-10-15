@@ -1,6 +1,6 @@
 ---
 name: council
-description: Run a 4-agent decision council (Believer, Skeptic, Investor, Judge) on an idea or decision and save the verdict to council/. Use only when the user runs /council.
+description: Run a 4-agent decision council (Believer, Skeptic, Investor, Judge) on an idea or decision and save the verdict to council/. Use only when the user runs the council command.
 argument-hint: "[idea or decision, path to a brief file, or: revisit <council folder> <new results>]"
 disable-model-invocation: true
 ---
@@ -10,6 +10,10 @@ Run the decision council on this brief:
 $ARGUMENTS
 
 Follow these steps exactly. Do not argue the case yourself — you are only the orchestrator.
+
+The four members are subagents named `believer`, `skeptic`, `investor` and `judge`. When this runs from the
+installed agent-council plugin they are listed as `agent-council:believer`, `agent-council:skeptic`,
+`agent-council:investor` and `agent-council:judge`. Use whichever form appears in your available agent types.
 
 ## 0. Prepare the brief
 - **Revisit:** if the argument starts with `revisit`, the next word is an earlier session folder

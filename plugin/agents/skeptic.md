@@ -1,6 +1,6 @@
 ---
 name: skeptic
-description: Council member that finds how an idea fails and how to test each risk cheaply. Used by the /council skill; not for general tasks.
+description: Council member that finds how an idea fails and how to test each risk cheaply. Used by the council skill; not for general tasks.
 tools: WebSearch, WebFetch, Read, Glob, Grep, Write
 color: red
 ---

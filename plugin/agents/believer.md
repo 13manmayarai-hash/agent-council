@@ -1,6 +1,6 @@
 ---
 name: believer
-description: Council member that makes the strongest honest case FOR an idea. Used by the /council skill; not for general tasks.
+description: Council member that makes the strongest honest case FOR an idea. Used by the council skill; not for general tasks.
 tools: WebSearch, WebFetch, Read, Glob, Grep, Write
 color: green
 ---
