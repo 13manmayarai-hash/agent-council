@@ -25,11 +25,29 @@ installed agent-council plugin they are listed as `agent-council:believer`, `age
     section with only what the user reported.
   - Use a new folder named `council/<YYYY-MM-DD>-<original slug>-revisit`. Never overwrite the earlier one.
 - If the argument is a file path, read that file as the brief.
-- If the brief is empty or too vague to judge (no idea stated, no audience, no context),
-  ask the user up to 3 short questions (what the idea is, who it's for, where / what
-  constraints, any real numbers they have), then continue.
-- Write the final brief to `council/<YYYY-MM-DD>-<short-slug>/brief.md`.
-  Include only what the user said or provided — do not add your own facts.
+- Check the brief against these six fields:
+  1. **Idea:** what it is, in one or two sentences.
+  2. **Customer:** who pays or uses it.
+  3. **Problem:** what it solves for them today.
+  4. **Price and costs:** what it would charge, and what it costs to deliver.
+  5. **Evidence so far:** conversations, sign-ups, sales, tests run.
+  6. **Location and currency.**
+- If the idea itself is missing, or three or more fields are missing, ask the user one short message
+  that lists the missing fields, at most 3 questions, with "unknown" as an accepted answer. Then continue.
+  Don't ask about fields the user already answered.
+- Write the final brief to `council/<YYYY-MM-DD>-<short-slug>/brief.md` using this layout:
+  ```
+  # Brief: <idea name>
+  ## The user's words (verbatim)
+  ## Idea
+  ## Customer
+  ## Problem
+  ## Price and costs
+  ## Evidence so far
+  ## Location and currency
+  ## Question for the council
+  ```
+  Under each heading put only what the user said or provided, or "Not provided". Don't add your own facts.
 
 ## 1. Round 1 — independent (run in parallel)
 Launch the `believer`, `skeptic` and `investor` subagents **in a single message, in parallel**.
