@@ -1,0 +1,20 @@
+## Skeptic — Round 1
+**Biggest single reason this fails:** A cheap one-off e-book probably can't pay for the paid clicks needed to sell it, so each sale loses money unless there's a backend (upsells, email list, higher-priced product), and the user doesn't have one yet.
+
+**Risks**
+1. **The ad cost of one sale may be higher than the book's price.** [Fact] 2025 Meta benchmarks put cost per click at about $0.70–$1.72 and site conversion at about 1.6% across roughly 35,000 accounts (Triple Whale, cited by [WordStream](https://www.wordstream.com/blog/facebook-ads-benchmarks-2025) and [Influee](https://influee.co/blog/facebook-ads-benchmarks)). [Assumption] If those general ecommerce rates hold, one sale costs about $44–$107 in ads. Typical self-help e-books sell for $10–$30. — severity 5
+   Cheapest test (≤ 2 weeks): Put up a landing page with a checkout (or a "pre-order" fake door) for one guide at $17–$27. Spend $300–$500. If ad cost per sale is above 1.5x the price with no upsell in place, stop. If it's at or below the price, that's a real signal.
+2. **There's a free substitute for nearly every topic.** [Assumption] How-to content on fitness, money, productivity and careers is free on YouTube and Reddit, and AI chatbots answer these questions on demand. [Fact] The e-book market already has an AI-generated glut: Amazon capped KDP uploads at 3 titles a day in 2023 because of it ([Authors Guild](https://authorsguild.org/news/amazon-adds-to-kdp-generative-ai-policy-caps-daily-self-publishing-uploads/)). — severity 4
+   Cheapest test: Take 3 candidate topics and see whether paid products with active ads already exist (Meta Ad Library, free) and how long those ads have run. Ads running 3+ months suggest the advertiser is profitable. If none exist, a niche is too thin. If 50+ exist, it's saturated.
+3. **Meta may disable the ad account, and money and health topics draw the closest review.** [Fact] Ads can't assert or imply personal attributes such as health conditions or financial status, and review covers the landing page too ([Directive](https://directiveconsulting.com/blog/meta-ads-manager-brand-safety/)). [Fact] New advertisers report accounts disabled on day one, with only automated appeal replies ([Shopify Community](https://community.shopify.com/t/facebook-banned-ad-account-on-my-first-day-need-help-to-appeal/64475/2)). If Meta is the only sales channel, one ban stops all sales. — severity 4
+   Cheapest test: Submit 5 draft ads plus the landing page and track approval or rejection rates. Build an email list from day one.
+4. **Money and careers guides carry legal risk.** [Fact] The FTC has acted against online "make money" schemes over unsupported earnings claims, including Ecommerce Empire Builders and FBA Machine ([Nat Law Review](https://www.natlawreview.com/article/ftc-announces-operation-ai-comply-address-ai-related-deception)). [Assumption] Any income promise in the ad copy creates the same exposure. UK sales also bring VAT on digital goods. — severity 3
+   Cheapest test: Write all copy with no income or result guarantees and check whether it still converts. Use a merchant-of-record platform such as Gumroad or Lemon Squeezy to handle VAT.
+5. **The user has no niche expertise, audience or ad-buying experience.** [Fact, from the brief] "Starting from scratch," with no price, budget or past results. [Assumption] Ad creative is what makes or breaks results on Meta, and beginners typically spend through several test rounds before finding a winning ad. — severity 3
+   Cheapest test: Set a hard learning budget (for example $500) and a set number of creative variants (10). If CTR stays below about 1% after that, stop.
+
+**What would change my mind:**
+- A paid test showing ad cost per sale at or below the front-end price.
+- Evidence the user has a backend offer worth 3x or more of the book's price.
+- A niche where competitors' ads have run in the Ad Library for 3+ months.
+- An unpaid channel (an organic audience, SEO, a community) so the business doesn't depend on Meta alone.
