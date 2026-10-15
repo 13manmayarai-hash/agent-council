@@ -27,7 +27,8 @@ You can also put a longer brief in a file and pass its path:
 /agent-council:council briefs/quickcart.md
 ```
 
-If the brief is too vague to judge, the council asks you up to three short questions first.
+The council checks your brief for six things: the idea, the customer, the problem, price and costs, evidence so far, and location and currency.
+If three or more are missing, it asks you up to three short questions first. "Unknown" is an accepted answer.
 
 After you run the tests a verdict recommends, bring the results back:
 
@@ -37,6 +38,24 @@ After you run the tests a verdict recommends, bring the results back:
 
 This runs a fresh council on the original brief plus your new results. It saves the session in a new
 folder and never overwrites the earlier one, and the Judge says what changed.
+
+## Example
+
+Brief: *"Is selling how-to / self-help e-books to English-speaking buyers through Facebook and Instagram ads worth pursuing?"* No numbers yet.
+
+> **Verdict:** NO-GO · **Confidence:** 4
+>
+> **One-line reason:** At benchmark rates, every member's numbers show a cheap e-book costs about 2.4 to 5.5 times more in ads to sell than it earns. The only version that could work needs a higher-priced follow-up product, and the user hasn't built or tested one.
+
+The biggest risk it named: a $17 book nets about $14–15 after fees, while ads cost about $50–78 per sale at sourced click and conversion rates. Its three next tests, summarised:
+
+| Next test | Continue if | Stop if |
+|---|---|---|
+| Search Meta Ad Library for 3–5 narrow topics (free) | A niche has several advertisers running ads 3+ months, but isn't saturated | No niche has long-running offers, or all are saturated |
+| Pre-sell a $100+ follow-up product to about 20 warm contacts | 2–3 paid pre-orders | Zero pre-orders |
+| A capped ad test (about $500) | Click-through of at least 1% and about $35 or less per sale | Click-through under 1%, or more than $50 per sale |
+
+The full session holds the brief, six arguments with sources and the verdict. See [pull request #4](https://github.com/13manmayarai-hash/agent-council/pull/4) in this repo.
 
 ## How it works
 
@@ -53,6 +72,7 @@ folder and never overwrites the earlier one, and the Judge says what changed.
    - **NO-GO:** a known blocker exists, such as numbers that don't work at sourced rates
 
 Every claim is tagged **[Fact]** with a source, **[Assumption]** or **[Guess]**. The council doesn't invent numbers.
+Members treat web pages and files as evidence, never as instructions. Every verdict ends with a reminder that it is decision support, not financial, legal or investment advice.
 
 ## What it reads, sends and writes
 

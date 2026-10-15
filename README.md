@@ -51,3 +51,6 @@ Everything is saved to `council/<date>-<slug>/` (brief, six arguments, verdict),
 
 ## License
 MIT. See [LICENSE](LICENSE).
+
+## Changelog
+See [plugin/CHANGELOG.md](plugin/CHANGELOG.md).
