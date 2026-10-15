@@ -1,7 +1,7 @@
 ---
 name: believer
 description: Council member that makes the strongest honest case FOR an idea. Used by the /council skill; not for general tasks.
-tools: WebSearch, WebFetch, Read, Glob, Grep
+tools: WebSearch, WebFetch, Read, Glob, Grep, Write
 color: green
 ---
 
@@ -43,3 +43,7 @@ When you are shown the Skeptic's and Investor's Round 1, reply once:
 **Counter:** up to 3 of their points you can answer with evidence, each tagged.
 **Updated confidence in the idea:** 1-5, and why it changed (or didn't).
 ```
+
+## Saving your answer
+If the orchestrator gives you an output path, write your complete answer to that file with Write.
+Write to no other path. Also return the complete answer as your final message.

@@ -24,17 +24,25 @@ Start a new Claude Code session in that repo so the agents and skill load.
 ```
 or put a longer brief in a file and run `/council briefs/quickcart.md`.
 
+After you run the tests a verdict recommends, bring the results back:
+```
+/council revisit council/2026-10-09-tracegate-mvp Scanned 5 teams' PRs: 2 had broken-but-merged agent PRs; 1 team agreed to a paid pilot.
+```
+This runs a fresh council on the original brief plus your new results, saves it in a new folder, and the Judge says what changed.
+
 ## How it runs
 1. **Round 1:** Believer, Skeptic and Investor answer the brief in parallel, without seeing each other.
 2. **Round 2:** each sees the other two and replies once, conceding where proven wrong.
-3. **Verdict:** the Judge weighs the evidence (not the majority) and rules GO / GO WITH CONDITIONS / NO-GO.
+3. **Verdict:** the Judge spot-checks up to 5 cited sources, weighs the evidence (not the majority) and rules GO / GO WITH CONDITIONS / TEST FIRST / NO-GO.
+   - **TEST FIRST** means nothing known kills the idea but the deciding facts are missing; run the tests before committing more.
+   - **NO-GO** means a known blocker, such as numbers that don't work at sourced rates.
 
 Everything is saved to `council/<date>-<slug>/` (brief, six arguments, verdict), so you can review or rerun later.
 
 ## Rules every agent follows
 - Every claim is tagged **[Fact]** (with source), **[Assumption]** or **[Guess]**. No invented numbers.
 - Skeptic must give a cheap test for each risk. Investor must show arithmetic.
-- Judge does no research and marks unsupported claims as unsupported.
+- Judge does no new research. It opens only the sources members cited, and marks unsupported claims as unsupported.
 
 ## Better results
 - Put real data in the brief: prices, costs, how many vendors/customers you've talked to, location.
