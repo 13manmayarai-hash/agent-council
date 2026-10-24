@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1 (2026-10-24)
+- **Renamed to Verdict Council** (`verdict-council`). The directory flagged "agent-council" as too close to an existing
+  plugin. The command is now `/verdict-council:council`, and the marketplace is `verdict-council`. If you installed the
+  old name, uninstall it and install `verdict-council@verdict-council`. The repository URL is unchanged.
+- Plugin icon for the directory listing.
+
 ## 1.2.0 (2026-10-24)
 - **Council levels:** before Round 1 the council picks Quick, Standard or Deep from the money at risk, how hard the
   decision is to undo, and the evidence in the brief. The level sets each member's model; the Judge always runs on Opus.
