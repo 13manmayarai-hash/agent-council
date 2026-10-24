@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1E2238"/>
+      <stop offset="1" stop-color="#11131F"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="224" fill="url(#bg)"/>
+  <!-- table -->
+  <circle cx="512" cy="540" r="200" fill="#2B3050" stroke="#3E4570" stroke-width="10"/>
+  <!-- verdict mark on the table -->
+  <path d="M432 545 l55 55 l110 -120" fill="none" stroke="#F4F1E8" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- judge (top, larger) -->
+  <circle cx="512" cy="214" r="92" fill="#9B6BF2"/>
+  <!-- believer (left) -->
+  <circle cx="226" cy="540" r="78" fill="#3FBF7F"/>
+  <!-- skeptic (right) -->
+  <circle cx="798" cy="540" r="78" fill="#EE5A5A"/>
+  <!-- investor (bottom) -->
+  <circle cx="512" cy="836" r="78" fill="#F2B83B"/>
+</svg>
