@@ -1,7 +1,7 @@
 {
   "name": "agent-council",
   "displayName": "Agent Council",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A four-agent decision council (Believer, Skeptic, Investor, Judge) that debates an idea, checks the money, spot-checks sources, and returns a verdict with the biggest risk and three cheap next tests.",
   "author": {
     "name": "Rajiv Prasad",

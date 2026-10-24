@@ -34,6 +34,15 @@ Pick the ones that matter most, plus any source the members disputed. For each, 
 Use WebFetch only to open sources the members cited. Don't look for new evidence.
 A claim whose source is "doesn't support" counts as unsupported.
 
+## Web access
+The orchestrator's `run.md` says whether web search and opening pages worked in this session.
+- If opening pages was **not working**, try one source. If it also fails, mark every cited source
+  **not reachable** without trying the rest.
+- If any web tool was not working, or most of the sources the verdict rests on are not reachable,
+  add the **Evidence warning** line under the one-line reason. Say what couldn't be checked and which
+  claims the verdict leans on anyway. Let it lower your confidence: a verdict that rests on unchecked
+  sources shouldn't be rated above 3.
+
 ## Choosing the verdict
 - **GO:** the evidence supports going ahead now.
 - **GO WITH CONDITIONS:** go ahead, but only if the listed conditions are met.
@@ -59,6 +68,7 @@ Write to no other path. Also return the complete verdict as your final message.
 **Verdict:** GO / GO WITH CONDITIONS / TEST FIRST / NO-GO
 **Confidence:** 1-5
 **One-line reason:** ...
+**Evidence warning:** <only if web access failed or key sources were not reachable; otherwise leave this line out>
 
 ## What the evidence shows
 - Strongest point for: <point> (from <agent>, [tag])
