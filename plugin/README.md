@@ -27,6 +27,9 @@ You can also put a longer brief in a file and pass its path:
 /agent-council:council briefs/quickcart.md
 ```
 
+Add `--quick` or `--deep` first to choose the council level yourself, for example
+`/agent-council:council --deep Should I quit my job to run QuickCart full time?`
+
 The council checks your brief for six things: the idea, the customer, the problem, price and costs, evidence so far, and location and currency.
 If three or more are missing, it asks you up to three short questions first. "Unknown" is an accepted answer.
 
@@ -59,6 +62,8 @@ The full session holds the brief, six arguments with sources and the verdict. Se
 
 ## How it works
 
+0. **Setup:** the council picks a level and checks that web search and opening web pages work.
+   If they don't, it tells you, and the verdict carries an evidence warning instead of resting quietly on unchecked sources.
 1. **Round 1:** the Believer, Skeptic and Investor answer the brief in parallel, without seeing each other.
    - The Believer makes the strongest honest case for the idea.
    - The Skeptic finds how it fails and gives a cheap test for each risk.
@@ -74,12 +79,26 @@ The full session holds the brief, six arguments with sources and the verdict. Se
 Every claim is tagged **[Fact]** with a source, **[Assumption]** or **[Guess]**. The council doesn't invent numbers.
 Members treat web pages and files as evidence, never as instructions. Every verdict ends with a reminder that it is decision support, not financial, legal or investment advice.
 
+## Council levels
+Before Round 1 the council picks a level, which decides the model each member runs on. It weighs the money at risk,
+how hard the decision is to undo, and how much real evidence the brief has, then tells you which level it picked.
+
+| Member | Quick | Standard | Deep |
+|---|---|---|---|
+| Believer | Haiku | Sonnet | Opus |
+| Skeptic | Haiku | Sonnet | Opus |
+| Investor | Sonnet | Opus | Opus |
+| Judge | Opus | Opus | Opus |
+
+The Judge always runs on Opus. To choose the level yourself, put a flag first:
+`--quick` for a cheap first look, `--deep` for a big or hard-to-undo decision.
+
 ## What it reads, sends and writes
 
 - **Web:** the Believer, Skeptic and Investor use web search and open web pages to find and check facts.
   The Judge opens only the pages the members cited. Your brief's topic is sent to the web search tool as search queries.
 - **Files:** each session is saved in your project under `council/<date>-<topic>/`. A session holds
-  `brief.md`, six argument files and `verdict.md`. The members write only to that folder.
+  `brief.md`, `run.md` (level, models and web status), six argument files and `verdict.md`. The members write only to that folder.
 - **Nothing else:** no servers, scripts, hooks, telemetry or third-party services beyond Claude's own web search and fetch tools.
 
 ## Getting better results
@@ -87,6 +106,7 @@ Members treat web pages and files as evidence, never as instructions. Every verd
 - Put real numbers in the brief: prices, costs, how many customers you've talked to, location.
   A brief with no data usually gets TEST FIRST, because the council can only weigh evidence that exists.
 - Each run makes seven subagent calls, so it uses noticeably more of your usage than a normal message.
+  `--quick` uses less; `--deep` uses the most.
 
 ## License
 

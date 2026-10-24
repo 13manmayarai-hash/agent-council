@@ -21,6 +21,7 @@ or into `~/.claude/` to use it in every project. The command is then `/council`.
 /council Should I launch QuickCart in Siliguri with 10 small grocery vendors, cash on delivery only, ₹25 delivery fee?
 ```
 or put a longer brief in a file and run `/council briefs/quickcart.md`.
+Add `--quick` or `--deep` first to choose the council level yourself (see below).
 
 After you run the tests a verdict recommends, bring the results back:
 ```
@@ -29,13 +30,29 @@ After you run the tests a verdict recommends, bring the results back:
 This runs a fresh council on the original brief plus your new results, saves it in a new folder, and the Judge says what changed.
 
 ## How it runs
+0. **Setup:** the council picks a level (see below) and checks that web search and opening web pages work.
+   If they don't, it tells you, and the verdict carries an evidence warning.
 1. **Round 1:** Believer, Skeptic and Investor answer the brief in parallel, without seeing each other.
 2. **Round 2:** each sees the other two and replies once, conceding where proven wrong.
 3. **Verdict:** the Judge spot-checks up to 5 cited sources, weighs the evidence (not the majority) and rules GO / GO WITH CONDITIONS / TEST FIRST / NO-GO.
    - **TEST FIRST** means nothing known kills the idea but the deciding facts are missing; run the tests before committing more.
    - **NO-GO** means a known blocker, such as numbers that don't work at sourced rates.
 
-Everything is saved to `council/<date>-<slug>/` (brief, six arguments, verdict), so you can review or rerun later.
+Everything is saved to `council/<date>-<slug>/` (brief, run settings, six arguments, verdict), so you can review or rerun later.
+
+## Council levels
+Before Round 1 the council picks a level, which decides the model each member runs on. It weighs the money at risk,
+how hard the decision is to undo, and how much real evidence the brief has, then tells you which level it picked.
+
+| Member | Quick | Standard | Deep |
+|---|---|---|---|
+| Believer | Haiku | Sonnet | Opus |
+| Skeptic | Haiku | Sonnet | Opus |
+| Investor | Sonnet | Opus | Opus |
+| Judge | Opus | Opus | Opus |
+
+The Judge always runs on Opus. To choose the level yourself, put a flag first:
+`--quick` for a cheap first look, `--deep` for a big or hard-to-undo decision.
 
 ## Rules every agent follows
 - Every claim is tagged **[Fact]** (with source), **[Assumption]** or **[Guess]**. No invented numbers.
@@ -47,7 +64,7 @@ Everything is saved to `council/<date>-<slug>/` (brief, six arguments, verdict),
   The council can only weigh what exists — a thin brief gets a cautious verdict.
 - Believer, Skeptic and Investor use web search to check facts; results depend on what's publicly findable.
 - Each run makes seven subagent calls, so it uses noticeably more of your usage than a normal message.
-- To change a model per agent, add `model: opus` (or `sonnet`, `haiku`) to that agent's frontmatter.
+  `--quick` uses less; `--deep` uses the most.
 
 ## License
 MIT. See [LICENSE](LICENSE).

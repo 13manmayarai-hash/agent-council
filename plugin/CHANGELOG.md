@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.0 (2026-10-24)
+- **Council levels:** before Round 1 the council picks Quick, Standard or Deep from the money at risk, how hard the
+  decision is to undo, and the evidence in the brief. The level sets each member's model; the Judge always runs on Opus.
+  Override with `--quick`, `--standard` or `--deep`.
+- **Web access check:** the council tests web search and page opening before Round 1. If either fails it tells you,
+  members stop retrying and tag unsourced claims as [Assumption], and the Judge adds an evidence warning to the verdict.
+- Each session saves a `run.md` with the level, models and web status.
+
 ## 1.1.0 (2026-10-15)
 - **Structured brief:** the council checks a brief for six fields (idea, customer, problem, price and costs,
   evidence so far, location and currency) and asks about missing ones before it starts.
