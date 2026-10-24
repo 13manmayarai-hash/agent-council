@@ -1,4 +1,4 @@
-# Agent Council
+# Verdict Council
 
 A four-agent decision council for Claude: **Believer**, **Skeptic**, **Investor** and **Judge**.
 Give it an idea or a decision. It argues both sides, works through the money, spot-checks the
@@ -10,25 +10,26 @@ to run next.
 In Claude Code:
 
 ```
-/plugin install agent-council --marketplace 13manmayarai-hash/agent-council
+/plugin marketplace add 13manmayarai-hash/agent-council
+/plugin install verdict-council@verdict-council
 ```
 
-Once it's listed in Anthropic's plugin directory, you can also add **Agent Council** from there.
+Once it's listed in Anthropic's plugin directory, you can also add **Verdict Council** from there.
 
 ## Use
 
 ```
-/agent-council:council Should I launch QuickCart in Siliguri with 10 small grocery vendors, cash on delivery only, ₹25 delivery fee?
+/verdict-council:council Should I launch QuickCart in Siliguri with 10 small grocery vendors, cash on delivery only, ₹25 delivery fee?
 ```
 
 You can also put a longer brief in a file and pass its path:
 
 ```
-/agent-council:council briefs/quickcart.md
+/verdict-council:council briefs/quickcart.md
 ```
 
 Add `--quick` or `--deep` first to choose the council level yourself, for example
-`/agent-council:council --deep Should I quit my job to run QuickCart full time?`
+`/verdict-council:council --deep Should I quit my job to run QuickCart full time?`
 
 The council checks your brief for six things: the idea, the customer, the problem, price and costs, evidence so far, and location and currency.
 If three or more are missing, it asks you up to three short questions first. "Unknown" is an accepted answer.
@@ -36,7 +37,7 @@ If three or more are missing, it asks you up to three short questions first. "Un
 After you run the tests a verdict recommends, bring the results back:
 
 ```
-/agent-council:council revisit council/2026-10-09-quickcart Talked to 12 vendors: 9 agreed to a 2-week trial; 40 orders in week one.
+/verdict-council:council revisit council/2026-10-09-quickcart Talked to 12 vendors: 9 agreed to a 2-week trial; 40 orders in week one.
 ```
 
 This runs a fresh council on the original brief plus your new results. It saves the session in a new

@@ -1,4 +1,4 @@
-# Agent Council for Claude Code
+# Verdict Council for Claude Code
 
 A four-agent decision council: **Believer**, **Skeptic**, **Investor** and **Judge**.
 Give it an idea or decision; it argues both sides, checks the money, and returns a verdict
@@ -6,11 +6,11 @@ with the biggest risk and the three cheapest tests to run next.
 
 ## Install
 **As a plugin (recommended):** the plugin lives in the [`plugin/`](plugin/) folder.
-- In Claude Code: `/plugin install agent-council --marketplace 13manmayarai-hash/agent-council`
-- From the plugin directory on claude.ai, once it's listed, add **Agent Council**.
+- In Claude Code: `/plugin marketplace add 13manmayarai-hash/agent-council`, then `/plugin install verdict-council@verdict-council`
+- From the plugin directory on claude.ai, once it's listed, add **Verdict Council**.
 - Or load it locally in Claude Code with `claude --plugin-dir ./plugin`.
 
-As a plugin, the command is `/agent-council:council` and the members are `agent-council:believer` and so on.
+As a plugin, the command is `/verdict-council:council` and the members are `verdict-council:believer` and so on.
 
 **Copying the files:** copy `plugin/agents/` and `plugin/skills/` into the `.claude/` folder of any repo,
 or into `~/.claude/` to use it in every project. The command is then `/council`. This repo's own

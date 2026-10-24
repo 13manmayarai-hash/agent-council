@@ -12,8 +12,8 @@ $ARGUMENTS
 Follow these steps exactly. Do not argue the case yourself — you are only the orchestrator.
 
 The four members are subagents named `believer`, `skeptic`, `investor` and `judge`. When this runs from the
-installed agent-council plugin they are listed as `agent-council:believer`, `agent-council:skeptic`,
-`agent-council:investor` and `agent-council:judge`. Use whichever form appears in your available agent types.
+installed verdict-council plugin they are listed as `verdict-council:believer`, `verdict-council:skeptic`,
+`verdict-council:investor` and `verdict-council:judge`. Use whichever form appears in your available agent types.
 
 ## 0. Prepare the brief
 - **Level flag:** if the argument starts with `--quick`, `--standard` or `--deep`, remove it and remember it
