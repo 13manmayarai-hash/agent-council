@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.0 (2026-11-07)
+- **Chat mode:** in Claude chat, where plugin agents don't load, the council no longer fails. One model plays the
+  Skeptic, Investor, Believer and Judge in turn from compact role cards in `skills/council/chat-mode.md`, with
+  shorter answers. The verdict carries a "Council mode: chat" line, and the reply says Round 1 wasn't independent.
+
 ## 1.2.1 (2026-10-24)
 - **Renamed to Verdict Council** (`verdict-council`). The directory flagged "agent-council" as too close to an existing
   plugin. The command is now `/verdict-council:council`, and the marketplace is `verdict-council`. If you installed the

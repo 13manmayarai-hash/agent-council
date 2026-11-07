@@ -61,6 +61,13 @@ The biggest risk it named: a $17 book nets about $14–15 after fees, while ads 
 
 The full session holds the brief, six arguments with sources and the verdict. See [pull request #4](https://github.com/13manmayarai-hash/agent-council/pull/4) in this repo.
 
+## Where it runs
+
+- **Claude Code and Cowork:** the full council, with four separate agents and Round 1 answers that can't see each other.
+- **Claude chat (web, desktop, mobile):** plugin agents don't load there, so the council runs in **chat mode**.
+  One model plays all four seats in turn, with shorter answers, and the verdict says so. Use Claude Code or
+  Cowork when the decision matters enough to want fully independent opinions.
+
 ## How it works
 
 0. **Setup:** the council picks a level and checks that web search and opening web pages work.
