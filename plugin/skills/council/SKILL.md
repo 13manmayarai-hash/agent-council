@@ -15,6 +15,10 @@ The four members are subagents named `believer`, `skeptic`, `investor` and `judg
 installed verdict-council plugin they are listed as `verdict-council:believer`, `verdict-council:skeptic`,
 `verdict-council:investor` and `verdict-council:judge`. Use whichever form appears in your available agent types.
 
+**Chat mode:** if neither form of the member agents is available, or you can't launch subagents at all
+(as in Claude chat, where plugin agents aren't loaded), don't stop. Read `chat-mode.md` in this skill's
+folder and follow it instead of steps 3 to 6: you play each member yourself, in turn.
+
 ## 0. Prepare the brief
 - **Level flag:** if the argument starts with `--quick`, `--standard` or `--deep`, remove it and remember it
   for step 1. Everything after it is the brief (or a revisit) as usual.

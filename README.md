@@ -29,6 +29,10 @@ After you run the tests a verdict recommends, bring the results back:
 ```
 This runs a fresh council on the original brief plus your new results, saves it in a new folder, and the Judge says what changed.
 
+## Where it runs
+In Claude Code and Cowork, the council uses four separate agents. In Claude chat, plugin agents don't load,
+so it switches to **chat mode**: one model plays every seat in turn and the verdict notes it.
+
 ## How it runs
 0. **Setup:** the council picks a level (see below) and checks that web search and opening web pages work.
    If they don't, it tells you, and the verdict carries an evidence warning.
